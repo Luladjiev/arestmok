@@ -38,7 +38,7 @@ public class ArestmokApplication {
                     .filters(
                         gatewayFilterSpec ->
                             gatewayFilterSpec
-                                .rewritePath("/proxy2/(?<path>.*)", "/${path}")
+                                .rewritePath("/proxy/(?<path>.*)", "/${path}")
                                 .filter(proxyFilter))
                     .uri(url))
         .build();
