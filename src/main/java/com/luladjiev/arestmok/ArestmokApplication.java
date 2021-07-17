@@ -25,21 +25,10 @@ public class ArestmokApplication {
     return builder
         .routes()
         .route(
-            "age-of-empires",
-            predicateSpec ->
-                predicateSpec
-                    .path("/proxy/**")
-                    .filters(
-                        gatewayFilterSpec ->
-                            gatewayFilterSpec
-                                .rewritePath("/proxy/(?<path>.*)", "/${path}")
-                                .filter(proxyFilter))
-                    .uri("https://age-of-empires-2-api.herokuapp.com"))
-        .route(
             "httpbin",
             predicateSpec ->
                 predicateSpec
-                    .path("/proxy2/**")
+                    .path("/proxy/**")
                     .filters(
                         gatewayFilterSpec ->
                             gatewayFilterSpec
