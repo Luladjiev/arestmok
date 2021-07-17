@@ -1,6 +1,7 @@
 package com.luladjiev.arestmok;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -10,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @Slf4j
 public class ArestmokApplication {
+  @Value("${arestmok.url}")
+  private String url;
+
   private final ProxyFilter proxyFilter;
 
   public ArestmokApplication(ProxyFilter proxyFilter) {
@@ -22,6 +26,8 @@ public class ArestmokApplication {
 
   @Bean
   public RouteLocator gateway(RouteLocatorBuilder builder) {
+    log.info(String.format("Proxying %s", url));
+
     return builder
         .routes()
         .route(
@@ -34,7 +40,7 @@ public class ArestmokApplication {
                             gatewayFilterSpec
                                 .rewritePath("/proxy2/(?<path>.*)", "/${path}")
                                 .filter(proxyFilter))
-                    .uri("https://httpbin.org"))
+                    .uri(url))
         .build();
   }
 }
